@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = "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"
+openai.api_key = "sk-proj-UdpUKGkJechPPowGhYxJPpki81rmjBS6khKvtznkNRxgCAublSVIkzE7q5T3BlbkFJQfqh1ZvRPan1JwaNJjIb-jC495mTSfPNjNtZlirHoYuryfqaqNhcAM8ow"
 
 try:
     response = openai.Completion.create(
