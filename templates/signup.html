@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+   <meta charset="utf-8">
+   <title>Sign-Up Form | Beat Buddy</title>
+   <link rel="stylesheet" href="static/style2.css">
+</head>
+<body>
+   <div class="wrapper">
+      <div class="title">Sign-Up</div>
+      <form action="/signup" method="POST">
+         <div class="field">
+            <input type="text" name="name" required>
+            <label>Full Name</label>
+         </div>
+         <div class="field">
+            <input type="email" name="email" required>
+            <label>Email Address</label>
+         </div>
+         <div class="field">
+            <input type="password" name="password" required>
+            <label>Password</label>
+         </div>
+         <div class="field">
+            <input type="password" name="confirm_password" required>
+            <label>Confirm Password</label>
+         </div>
+         <div class="field">
+            <input type="submit" value="Sign Up">
+         </div>
+         <div class="signup-link">Already a member? <a href="{{ url_for('login') }}">Login now</a></div>
+      </form>
+   </div>
+</body>
+</html>

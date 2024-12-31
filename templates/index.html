@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEAT BUDDY</title>
+  <!-- Linking Google Fonts For Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="static/style1.css">
+</head>
+<body>
+
+ <div class="main-container">
+    <header class="header">
+      <h1 class="title">Beat Buddy</h1>
+      <p class="subtitle">Where words leave off, music begins</p>
+    </header>
+
+    <!-- Chat List / Container -->
+    <div class="chat-list" id="chatbox"></div>
+  </div>
+
+  <!-- Typing Area -->
+  <div class="typing-area">
+    <form action="#" class="typing-form" onsubmit="event.preventDefault(); sendChatMessage();">
+      <div class="input-wrapper">
+        <input type="text" id="userInput" placeholder="Enter a prompt here" class="typing-input" required />
+        <button id="send-message-button" class="icon material-symbols-rounded">send</button>
+      </div>
+      <div class="action-buttons">
+        <span id="theme-toggle-button" class="icon material-symbols-rounded" title="GET RECOMMENDATIONS" onclick="sendMusicMessage()">queue_music</span>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function sendChatMessage() {
+      const userInput = document.getElementById('userInput').value;
+      if (userInput.trim() === '') return;
+
+      displayMessage('user-message', userInput, 'user');
+      document.getElementById('userInput').value = '';
+
+      displayLoadingAnimation();
+
+      fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: userInput })
+      })
+      .then(response => response.json())
+      .then(data => {
+        removeLoadingAnimation();
+        displayMessage('bot-message', data.response, 'bot');
+      })
+      .catch(error => {
+        removeLoadingAnimation();
+        displayMessage('bot-message', 'Error processing your request.', 'bot');
+      });
+    }
+
+    function sendMusicMessage() {
+      const userInput = document.getElementById('userInput').value;
+      if (userInput.trim() === '') return;
+
+      displayMessage('user-message', userInput, 'user');
+      document.getElementById('userInput').value = '';
+
+      displayLoadingAnimation();
+
+      fetch('/recommend', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: userInput })
+      })
+      .then(response => response.json())
+      .then(data => {
+        removeLoadingAnimation();
+        displayAllMusicRecommendations(data.response);
+      })
+      .catch(error => {
+        removeLoadingAnimation();
+        displayMessage('bot-message', 'Error fetching music recommendations.', 'bot');
+      });
+    }
+
+    function displayMessage(type, message, sender) {
+      const chatbox = document.getElementById('chatbox');
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('chat-message', type);
+
+      const avatarElement = document.createElement('span');
+      avatarElement.classList.add('icon', 'material-symbols-rounded');
+      avatarElement.textContent = sender === 'user' ? 'person' : 'smart_toy';
+
+      const textElement = document.createElement('div');
+      textElement.classList.add('message-text');
+      textElement.textContent = message;
+
+      if (sender === 'user') {
+        messageElement.appendChild(textElement);
+        messageElement.appendChild(avatarElement);
+      } else {
+        messageElement.appendChild(avatarElement);
+        messageElement.appendChild(textElement);
+      }
+
+      chatbox.appendChild(messageElement);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    function displayLoadingAnimation() {
+      const chatbox = document.getElementById('chatbox');
+      const loadingElement = document.createElement('div');
+      loadingElement.classList.add('chat-message', 'bot-message', 'loading-animation');
+
+      const avatarElement = document.createElement('span');
+      avatarElement.classList.add('icon', 'material-symbols-rounded');
+      avatarElement.textContent = 'smart_toy';
+
+      const loadingIndicator = document.createElement('div');
+      loadingIndicator.classList.add('loading-indicator');
+      loadingIndicator.innerHTML = '<span class="loading-bar"></span><span class="loading-bar"></span>';
+
+      loadingElement.appendChild(avatarElement);
+      loadingElement.appendChild(loadingIndicator);
+
+      chatbox.appendChild(loadingElement);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    function removeLoadingAnimation() {
+      const chatbox = document.getElementById('chatbox');
+      const loadingElement = chatbox.querySelector('.loading-animation');
+      if (loadingElement) {
+        chatbox.removeChild(loadingElement);
+      }
+    }
+
+    function displayAllMusicRecommendations(tracks) {
+      const chatbox = document.getElementById('chatbox');
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('chat-message', 'bot-message');
+
+      const avatarElement = document.createElement('span');
+      avatarElement.classList.add('icon', 'material-symbols-rounded');
+      avatarElement.textContent = 'smart_toy';
+
+      const recommendationsContainer = document.createElement('div');
+      recommendationsContainer.classList.add('recommendations-container');
+
+      tracks.forEach(track => {
+        const trackElement = document.createElement('div');
+        trackElement.classList.add('track-item');
+
+        const textElement = document.createElement('span');
+        textElement.textContent = track.name;
+        textElement.classList.add('message-text');
+
+        const playButton = document.createElement('button');
+        playButton.classList.add('play-button-icon', 'material-symbols-rounded');
+        playButton.textContent = 'play_arrow';
+        playButton.onclick = () => window.open(track.url, '_blank');
+
+        trackElement.appendChild(textElement);
+        trackElement.appendChild(playButton);
+        recommendationsContainer.appendChild(trackElement);
+      });
+
+      messageElement.appendChild(avatarElement);
+      messageElement.appendChild(recommendationsContainer);
+
+      chatbox.appendChild(messageElement);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Beat Buddy</title>
+    <link rel="stylesheet" href="/static/style3.css"> <!-- Make sure the correct CSS file is linked -->
+</head>
+<body>
+    <div class="animated-title">
+        <div class="text-top">
+          <div>
+            <span>Welcome to</span>
+            <span>Beat Buddy</span>
+          </div>
+        </div>
+        <div class="text-bottom">
+          <div>
+            <!-- Button that redirects to the login page -->
+            <a href="{{ url_for('login') }}" class="get-started-btn">Get Started</a>
+          </div>
+        </div>
+      </div>
+</body>
+</html>
