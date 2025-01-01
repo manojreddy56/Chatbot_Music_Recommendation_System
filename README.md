@@ -108,10 +108,14 @@ This project is an **Emotion-Based Chatbot Music Recommendation System** that re
 ## Screenshots
 
 
-*Chatbot user interface*
+## Screenshots
 
+### Chatbot User Interface
+![Chatbot Interface](screenshots/chat_interface.png)
 
-*Recommended songs list*
+### Recommended Songs List
+![Music Recommendation](screenshots/music_recommendations.png)
+
 
 ## Contributing
 
