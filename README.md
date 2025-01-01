@@ -1,8 +1,8 @@
-Emotion-Based Chatbot Music Recommendation System 🎵
+# Emotion-Based Chatbot Music Recommendation System 🎵
 
-Project Overview
+## Project Overview
 
-This project is an "Emotion-Based Chatbot Music Recommendation System** that recommends songs to users based on their mood, detected through chatbot interactions. The system uses "Cohere API" for chatbot implementation and "Spotify API" for fetching and recommending songs. User login, signup, and session management are implemented securely using **Flask-SQLAlchemy** and **MySQL/SQLite**.
+This project is an **Emotion-Based Chatbot Music Recommendation System** that recommends songs to users based on their mood, detected through chatbot interactions. The system uses **Cohere API** for chatbot implementation and **Spotify API** for fetching and recommending songs. User login, signup, and session management are implemented securely using **Flask-SQLAlchemy** and **MySQL/SQLite**.
 
 ## Features
 
